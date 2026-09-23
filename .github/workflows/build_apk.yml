@@ -19,14 +19,15 @@ jobs:
       - name: Install dependencies
         run: |
           sudo apt-get update
-          sudo apt-get install -y build-essential libssl-dev libffi-dev python3-dev cython3 ccache
+          sudo apt-get install -y build-essential libssl-dev libffi-dev python3-dev cython3 ccache openjdk-17-jdk
           pip install --upgrade buildozer cython
 
       - name: Build with Buildozer
         run: |
-          mkdir -p ~/.android
-          touch ~/.android/repositories.cfg
+          # Chạy trước 1 lượt để Buildozer tự tải SDK
           buildozer android debug || true
+          # Tự động đồng ý toàn bộ SDK License
           yes | /home/runner/.buildozer/android/platform/android-sdk/cmdline-tools/latest/bin/sdkmanager --licenses || true
+          # Chạy build thực tế
           buildozer -v android debug
           
