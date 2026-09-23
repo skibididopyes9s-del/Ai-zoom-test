@@ -24,5 +24,9 @@ jobs:
 
       - name: Build with Buildozer
         run: |
+          mkdir -p ~/.android
+          touch ~/.android/repositories.cfg
+          buildozer android debug || true
+          yes | /home/runner/.buildozer/android/platform/android-sdk/cmdline-tools/latest/bin/sdkmanager --licenses || true
           buildozer -v android debug
           
