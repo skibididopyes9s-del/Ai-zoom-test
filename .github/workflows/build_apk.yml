@@ -20,14 +20,18 @@ jobs:
         run: |
           sudo apt-get update
           sudo apt-get install -y build-essential libssl-dev libffi-dev python3-dev cython3 ccache openjdk-17-jdk
-          pip install --upgrade buildozer cython
+          pip install --upgrade "buildozer<3.0.0" "cython<3.0.0"
 
       - name: Build with Buildozer
         run: |
-          # Chạy trước 1 lượt để Buildozer tự tải SDK
-          buildozer android debug || true
-          # Tự động đồng ý toàn bộ SDK License
-          yes | /home/runner/.buildozer/android/platform/android-sdk/cmdline-tools/latest/bin/sdkmanager --licenses || true
-          # Chạy build thực tế
-          buildozer -v android debug
+          mkdir -p ~/.android
+          touch ~/.android/repositories.cfg
+          export BUILDOZER_ACCEPT_SDK_LICENSE=1
+          yes | buildozer -v android debug
+
+      - name: Upload APK Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: AI-Super-Zoom-X300-Pro-APK
+          path: bin/*.apk
           
