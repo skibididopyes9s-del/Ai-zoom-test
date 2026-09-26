@@ -7,7 +7,7 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     steps:
       - uses: actions/checkout@v4
 
@@ -19,8 +19,9 @@ jobs:
       - name: Install dependencies
         run: |
           sudo apt-get update
-          sudo apt-get install -y build-essential libssl-dev libffi-dev python3-dev cython3 ccache openjdk-17-jdk
-          pip install --upgrade "buildozer<3.0.0" "cython<3.0.0"
+          sudo apt-get install -y build-essential libssl-dev libffi-dev python3-dev ccache openjdk-17-jdk zip unzip
+          pip install --upgrade pip
+          pip install "cython<3.0.0" "buildozer==2.0.0"
 
       - name: Build with Buildozer
         run: |
@@ -32,6 +33,6 @@ jobs:
       - name: Upload APK Artifact
         uses: actions/upload-artifact@v4
         with:
-          name: AI-Super-Zoom-X300-Pro-APK
+          name: AI-Super-Zoom-APK
           path: bin/*.apk
           
