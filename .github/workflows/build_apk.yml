@@ -28,6 +28,7 @@ jobs:
           mkdir -p ~/.android
           touch ~/.android/repositories.cfg
           export BUILDOZER_ACCEPT_SDK_LICENSE=1
+          buildozer -v android clean
           buildozer -v android debug
 
       - name: Upload APK Artifact
